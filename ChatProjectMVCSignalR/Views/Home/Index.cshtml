@@ -7,6 +7,9 @@
     <script src="~/Scripts/jquery-1.6.4.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.0.min.js"></script>
     <script src="~/SignalR/Hubs"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
         $(function () {
 
@@ -28,6 +31,8 @@
                     chat.server.send($username.val(), $message.val());
 
                     $message.val('').focus();
+
+                    
                 });
             });
         });
@@ -35,11 +40,33 @@
     </script>
 </head>
 <body>
-    <div>
-        <label for="txtUserName">Kullanıcı: </label> @Html.TextBox("txtUsername")
-        <br />
-        <label for="txtMessage">Mesaj: </label> @Html.TextBox("txtMessage") <button id="btnSendMessage">Mesaj Yolla</button>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <form class="row g-3">
+
+                    <div class="col-12">
+                        <label for="txtUsername" class="form-label">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="txtUsername">
+                    </div>
+                    <div class="col-12">
+                        <label for="txtMessage" class="form-label">Mesaj</label>
+                        <input type="text" class="form-control" id="txtMessage">
+                    </div>
+                    <br />
+                    <div class="col-12">
+                        <button type='button' id="btnSendMessage">Mesaj Yolla</button>
+                    </div>
+                    <div class="col-12" id="messages" style="height:200px">
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-4"></div>
+        </div>
     </div>
-    <div id="messages"></div>
+    
+    
 </body>
 </html>
