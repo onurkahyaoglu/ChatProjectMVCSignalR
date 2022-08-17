@@ -27,12 +27,30 @@
 
             $.connection.hub.start().done(function () {
                 $('#btnSendMessage').click(function () {
+                    document.getElementById("btnSendMessage").disabled = true;
 
                     chat.server.send($username.val(), $message.val());
 
                     $message.val('').focus();
 
-                    
+                    //Counter
+                    timeLeft = 60;
+                    function countdown() {
+                        timeLeft--;
+                        $("#seconds").css('visibility', 'visible');
+                        document.getElementById("seconds").innerHTML = String(timeLeft) + " Saniye boyunca mesaj gönderemezsiniz.";
+                        if (timeLeft > 0) {
+                            document.getElementById("btnSendMessage").disabled = true;
+
+                            setTimeout(countdown, 1000);
+                        }
+                        if (timeLeft == 0) {
+                            $("#seconds").css('visibility', 'hidden');
+                            document.getElementById("btnSendMessage").disabled = false;
+                        }
+                    };
+
+                    setTimeout(countdown, 1000);
                 });
             });
         });
@@ -57,10 +75,15 @@
                     </div>
                     <br />
                     <div class="col-12">
-                        <button type='button' id="btnSendMessage">Mesaj Yolla</button>
+                        <button type='button' class="btn btn-primary" id="btnSendMessage">Mesaj Yolla</button>
+                    </div>
+                    <br />
+                    <div class="col-12">
+                        <span id="seconds" style="visibility:hidden"></span>
                     </div>
                     <div class="col-12" id="messages" style="height:200px">
                     </div>
+                   
                 </form>
             </div>
             <div class="col-xs-4"></div>
