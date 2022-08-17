@@ -6,11 +6,11 @@ using System.Web;
 
 namespace ChatProjectMVCSignalR
 {
-    public class Chub : Hub
+    public class ChatHub : Hub
     {
         public void Send(string username, string message)
         {
-            Clients.All.sendMessage(username,message);
+            Clients.All.sendMessage(username, message);
         }
     }
 }

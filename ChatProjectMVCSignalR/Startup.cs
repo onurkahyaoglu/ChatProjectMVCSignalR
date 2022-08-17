@@ -1,12 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-[assembly: OwinStartup(typeof(ChatProjectMVCSignalR.Startup))]
+[assembly: OwinStartup(typeof(ChatUygulamasi.Startup))]
 
-namespace ChatProjectMVCSignalR
+namespace ChatUygulamasi
 {
     public class Startup
     {

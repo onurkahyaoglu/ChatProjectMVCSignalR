@@ -1,54 +1,45 @@
-﻿@{ Layout = null;}
+﻿@{Layout = null;}
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/Scripts/jquery-1.6.4.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.0.min.js"></script>
     <script src="~/SignalR/Hubs"></script>
-    <link rel="stylesheet" media="all" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" media="all" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(function () {
+
+            var chat = $.connection.chatHub;
+            var $username = $('#txtUsername');
+            var $message = $('#txtMessage');
+            var $messages = $('#messages');
+
+            $message.focus();
+
+            chat.client.sendMessage = function (name, message) {
+
+                $messages.append('<li><strong>' + name + '</strong>: ' + message + '</li>');
+            };
+
+            $.connection.hub.start().done(function () {
+                $('#btnSendMessage').click(function () {
+
+                    chat.server.send($username.val(), $message.val());
+
+                    $message.val('').focus();
+                });
+            });
+        });
+
+    </script>
 </head>
 <body>
-    <div class="container d-flex justify-content-center">
-        <div class="card mt-5">
-
-            <div class="d-flex flex-row justify-content-between p-3 adiv text-white" style="background-color: green;">
-
-                <span class="pb-3" style="margin: auto;">Live chat</span>
-
-            </div>
-            <div id="messages">
-
-                <div class="d-flex flex-row p-3">
-                    <div class="chat ml-2 p-3"><strong>User1:</strong> Hello and thankyou for visiting birdlymind. Please click the video above</div>
-                </div>
-                <div class="d-flex flex-row p-3">
-                    <div class="chat ml-2 p-3"><strong>User2:</strong> Hello and thankyou for visiting birdlymind. Please click the video above</div>
-                </div>
-                <div class="d-flex flex-row p-3">
-                    <div class="chat ml-2 p-3"><strong>User1:</strong> Hello and thankyou for visiting birdlymind. Please click the video above</div>
-                </div>
-
-            </div>
-
-            <div class="form-group px-3">
-                <textarea id="txtUserName" class="form-control" rows="1" placeholder="Kullanıcı Adı"></textarea>
-            </div>
-            <div class="form-group px-3">
-                <textarea id="txtMessage" class="form-control" rows="5" placeholder="Mesaj Yazınız"></textarea>
-            </div>
-            <div class="form-group px-3">
-                <button type="button" class="btn btn-success" id="btnSendMessage">Mesaj Gönder</button>
-
-                <span id="seconds" style="visibility:hidden">60 Saniye boyunca mesaj gönderemezsiniz</span>
-
-            </div>
-        </div>
+    <div>
+        <label for="txtUserName">Kullanıcı: </label> @Html.TextBox("txtUsername")
+        <br />
+        <label for="txtMessage">Mesaj: </label> @Html.TextBox("txtMessage") <button id="btnSendMessage">Mesaj Yolla</button>
     </div>
+    <div id="messages"></div>
 </body>
 </html>
-
